@@ -1,0 +1,64 @@
+{
+  "scenarios": [
+    {
+      "id": "bc1",
+      "title": "Payday Sunday",
+      "prompt": "Paycheck hits today. Rent's due Monday.",
+      "left": { "label": "Pay rent first thing", "pct": 73, "bagDelta": 6 },
+      "right": { "label": "Treat yourself, pay rent tomorrow", "pct": 27, "bagDelta": -4 }
+    },
+    {
+      "id": "bc2",
+      "title": "The Group Chat Split",
+      "prompt": "Dinner bill arrives. Someone suggests splitting evenly — you got the side salad.",
+      "left": { "label": "Speak up, pay for what you ordered", "pct": 61, "bagDelta": 5 },
+      "right": { "label": "Split evenly, skip the awkwardness", "pct": 39, "bagDelta": -3 }
+    },
+    {
+      "id": "bc3",
+      "title": "Surprise Deposit",
+      "prompt": "An old refund finally lands — an extra $75, out of nowhere.",
+      "left": { "label": "Straight to savings", "pct": 58, "bagDelta": 5 },
+      "right": { "label": "Straight to a night out", "pct": 42, "bagDelta": -2 }
+    },
+    {
+      "id": "bc4",
+      "title": "The Almost-Impulse-Buy",
+      "prompt": "24-hour flash sale — 40% off something you've wanted for months, not needed.",
+      "left": { "label": "Sleep on it, add to a wishlist", "pct": 66, "bagDelta": 4 },
+      "right": { "label": "Buy now before the timer runs out", "pct": 34, "bagDelta": -5 }
+    }
+  ],
+  "calendar": {
+    "2026-09-14": "bc1",
+    "2026-09-15": "bc2",
+    "2026-09-16": "bc3",
+    "2026-09-17": "bc4",
+    "2026-09-18": "bc1",
+    "2026-09-19": "bc2",
+    "2026-09-20": "bc3",
+    "2026-09-21": "bc4",
+    "2026-09-22": "bc1",
+    "2026-09-23": "bc2",
+    "2026-09-24": "bc3",
+    "2026-09-25": "bc4",
+    "2026-09-26": "bc1",
+    "2026-09-27": "bc2",
+    "2026-09-28": "bc3",
+    "2026-09-29": "bc4",
+    "2026-09-30": "bc1",
+    "2026-10-01": "bc2",
+    "2026-10-02": "bc3",
+    "2026-10-03": "bc4",
+    "2026-10-04": "bc1",
+    "2026-10-05": "bc2",
+    "2026-10-06": "bc3",
+    "2026-10-07": "bc4",
+    "2026-10-08": "bc1",
+    "2026-10-09": "bc2",
+    "2026-10-10": "bc3",
+    "2026-10-11": "bc4",
+    "2026-10-12": "bc1",
+    "2026-10-13": "bc2"
+  }
+}

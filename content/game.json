@@ -1,0 +1,1145 @@
+{
+  "moneyTypes": {
+    "saver": {
+      "key": "saver",
+      "label": "The Saver",
+      "trait": "Risk-averse, deliberate",
+      "blurb": "You default to caution — it protects you, but sometimes it costs you growth you never let yourself go after."
+    },
+    "splurger": {
+      "key": "splurger",
+      "label": "The Splurger",
+      "trait": "Impulsive, present-biased",
+      "blurb": "You live for right now. The game is going to make sure you feel the bill three months later."
+    },
+    "freezer": {
+      "key": "freezer",
+      "label": "The Freezer",
+      "trait": "Avoidant, decision-paralysis",
+      "blurb": "When money gets uncomfortable, you look away. Not this time — every scenario here forces a real choice."
+    },
+    "chaser": {
+      "key": "chaser",
+      "label": "The Chaser",
+      "trait": "FOMO-driven, trend-following",
+      "blurb": "You want in on what's hot. We'll keep showing you the hype — see if you can tell it apart from the fundamentals."
+    }
+  },
+  "quiz": [
+    {
+      "q": "A friend texts about a spontaneous weekend trip, leaving tomorrow.",
+      "options": [
+        { "t": "Check my savings first, then decide", "type": "saver" },
+        { "t": "Book it now, figure out money later", "type": "splurger" },
+        { "t": "Leave her on read for two days", "type": "freezer" },
+        { "t": "Ask if it's the trip everyone's posting about", "type": "chaser" }
+      ]
+    },
+    {
+      "q": "You just got $200 for your birthday.",
+      "options": [
+        { "t": "It goes straight into savings", "type": "saver" },
+        { "t": "It's basically already spent", "type": "splurger" },
+        { "t": "It sits in checking for weeks, untouched", "type": "freezer" },
+        { "t": "I check what everyone's investing in first", "type": "chaser" }
+      ]
+    },
+    {
+      "q": "Your bank app sends a low-balance alert.",
+      "options": [
+        { "t": "I already knew, I track it closely", "type": "saver" },
+        { "t": "Huh, didn't see that coming", "type": "splurger" },
+        { "t": "I close the app and deal with it later", "type": "freezer" },
+        { "t": "I'm annoyed but it won't stop me buying what I want", "type": "chaser" }
+      ]
+    },
+    {
+      "q": "A 'can't-miss' investment is blowing up your group chat.",
+      "options": [
+        { "t": "I want to see three years of data first", "type": "saver" },
+        { "t": "Sounds fun, I'm in for a little", "type": "splurger" },
+        { "t": "I'll look into it... eventually", "type": "freezer" },
+        { "t": "I'm already in, everyone's talking about it", "type": "chaser" }
+      ]
+    },
+    {
+      "q": "Rent's due in three days and you haven't checked your balance.",
+      "options": [
+        { "t": "I already know exactly what's there", "type": "saver" },
+        { "t": "I'll figure it out, it usually works out", "type": "splurger" },
+        { "t": "Checking feels stressful, so I haven't", "type": "freezer" },
+        { "t": "I'm more focused on this drop I want", "type": "chaser" }
+      ]
+    }
+  ],
+  "playbooks": {
+    "paycheckBasics": {
+      "name": "Reading Your Paycheck",
+      "icon": "Wallet",
+      "research": {
+        "headline": "What's actually in a paycheck",
+        "points": [
+          "Gross pay is the number you're quoted. Net pay — what hits your account — is smaller.",
+          "Taxes, and sometimes benefits, get taken out before you ever see the money.",
+          "A steady schedule (like retail) makes your net pay way easier to predict than gig work does."
+        ],
+        "tip": "Whichever job you pick, always plan your budget around net pay, not the number in the posting."
+      }
+    },
+    "creditBasics": {
+      "name": "Credit Card Basics",
+      "icon": "CreditCard",
+      "research": {
+        "headline": "How a credit card actually works",
+        "points": [
+          "A credit card is a loan you take out every time you swipe — not free money.",
+          "Pay the full statement balance by the due date and you owe $0 in interest, ever.",
+          "Pay only the minimum and the leftover balance racks up interest, often 20%+ a year."
+        ],
+        "tip": "The habit that builds credit fastest: use it for something small, then pay it off in full."
+      }
+    },
+    "readingLease": {
+      "name": "Reading a Lease",
+      "icon": "FileText",
+      "research": {
+        "headline": "What's hiding in a lease",
+        "points": [
+          "A security deposit is refundable — but only if you meet the conditions written in the lease.",
+          "Fees for things like 'amenities' or 'admin' are often negotiable if you ask before signing.",
+          "Anything you agree to in writing is what a landlord can legally hold you to — read every page."
+        ],
+        "tip": "Skimming a lease can cost you more than the ten minutes it takes to actually read it."
+      }
+    },
+    "compoundInterest": {
+      "name": "Compound Interest",
+      "icon": "TrendingUp",
+      "research": {
+        "headline": "Why starting early beats saving more later",
+        "points": [
+          "Compound interest means you earn returns on your returns, not just your original deposit.",
+          "An employer match is free money added on top of what you contribute — it's part of your pay.",
+          "Money invested in your 20s has decades to grow; the same amount at 40 has far less time."
+        ],
+        "tip": "The real cost of skipping an IRA isn't the cash you kept — it's the growth that cash won't get to have."
+      }
+    },
+    "negotiating": {
+      "name": "Negotiating a Raise",
+      "icon": "Award",
+      "research": {
+        "headline": "Why the first offer isn't the final offer",
+        "points": [
+          "Most first offers have room built in — employers expect some back-and-forth.",
+          "Coming with specific reasons (results, added responsibilities) makes a counter hard to dismiss.",
+          "Asking doesn't damage your standing — declining to negotiate is what leaves money on the table."
+        ],
+        "tip": "One successful negotiation early in your career compounds across every raise that follows it."
+      }
+    },
+    "emergencyFund": {
+      "name": "Emergency Fund Basics",
+      "icon": "ShieldCheck",
+      "research": {
+        "headline": "What an emergency fund is actually for",
+        "points": [
+          "An emergency fund is cash set aside only for real, unavoidable costs — not a want.",
+          "Paying cash for a surprise bill costs exactly the bill. Paying by credit adds interest on top.",
+          "The fund's job is to turn a crisis into an inconvenience."
+        ],
+        "tip": "If a surprise bill would wreck your month, that's the signal to build this fund before anything else."
+      }
+    }
+  },
+  "lessons": {
+    "opportunityCost": {
+      "name": "Opportunity Cost",
+      "icon": "Lightbulb",
+      "research": {
+        "headline": "What 'opportunity cost' really means",
+        "points": [
+          "Opportunity cost is what you give up by choosing one option over another.",
+          "Saving isn't automatically the 'right' choice — money you never spend can't buy you anything either.",
+          "The real question isn't spend-or-save, it's 'what does this dollar do the most good doing?'"
+        ],
+        "tip": "A common blind spot is treating every purchase like a threat instead of asking what it's actually worth."
+      }
+    },
+    "highYieldSavings": {
+      "name": "High-Yield Savings",
+      "icon": "TrendingUp",
+      "research": {
+        "headline": "Why where you keep cash matters",
+        "points": [
+          "A typical checking account earns close to 0% interest — your money just sits there.",
+          "A high-yield savings account (HYSA) can earn 10–40x more with zero extra risk.",
+          "Moving money to a HYSA takes minutes and costs nothing — it's pure upside."
+        ],
+        "tip": "Idle cash in checking isn't 'safe' — it's just not growing."
+      }
+    },
+    "debtPayoff": {
+      "name": "Paying Down Debt",
+      "icon": "CreditCard",
+      "research": {
+        "headline": "Why minimum payments are a trap",
+        "points": [
+          "Minimum payments are calculated to keep you paying interest for as long as possible.",
+          "Interest is charged on whatever balance is left — the longer it sits, the more it costs.",
+          "Paying more than the minimum (or paying it off in full) shrinks that interest fast."
+        ],
+        "tip": "The 'minimum payment' number is set by the card company's interest, not by what's good for you."
+      }
+    },
+    "subscriptionAudit": {
+      "name": "Subscription Audits",
+      "icon": "RotateCcw",
+      "research": {
+        "headline": "How subscriptions quietly add up",
+        "points": [
+          "Small recurring charges don't feel like spending — which is exactly why they add up unnoticed.",
+          "A quick monthly audit usually finds at least one subscription you forgot you had.",
+          "Cancelling something is free. Not checking costs you every single month."
+        ],
+        "tip": "Recurring charges are the easiest expense to fix, because the savings repeat too."
+      }
+    },
+    "fairSplits": {
+      "name": "Advocating for Yourself",
+      "icon": "Users",
+      "research": {
+        "headline": "Why an unfair split stays unfair",
+        "points": [
+          "An arrangement doesn't become fair just because no one objected to it.",
+          "Money conversations feel awkward once — staying quiet costs you every month after.",
+          "Asking for a fair split is a negotiation, not a conflict."
+        ],
+        "tip": "The discomfort of one conversation is usually smaller than the cost of avoiding it."
+      }
+    },
+    "followThrough": {
+      "name": "Following Through",
+      "icon": "MessageCircle",
+      "research": {
+        "headline": "Why 'it's not worth it' is worth checking",
+        "points": [
+          "Money owed to you doesn't disappear just because collecting it is inconvenient.",
+          "Companies count on people not following up on refunds — it's often part of the business model.",
+          "A five-minute call for real money back is a strong hourly rate for 'annoying' work."
+        ],
+        "tip": "Letting a small refund go teaches the same avoidance habit that costs more on bigger amounts."
+      }
+    },
+    "hypeVsFundamentals": {
+      "name": "Hype vs. Fundamentals",
+      "icon": "Flame",
+      "research": {
+        "headline": "How to tell hype from a real opportunity",
+        "points": [
+          "If everyone's suddenly talking about an investment, you're probably late, not early.",
+          "Fundamentals — what a thing is actually worth — move slowly. Hype moves fast, and reverses fast.",
+          "FOMO is a feeling, not information. It doesn't tell you anything about future price."
+        ],
+        "tip": "By the time an investment is in every group chat, the easy gains are usually already gone."
+      }
+    },
+    "resaleRisk": {
+      "name": "Resale Risk",
+      "icon": "Zap",
+      "research": {
+        "headline": "Why 'guaranteed' resale rarely is",
+        "points": [
+          "Resale value depends on someone else wanting it later — that's a guess, not a guarantee.",
+          "Limited drops create artificial urgency designed to make you skip the math.",
+          "If everyone had the same idea to resell, there's rarely enough buyers for all of them."
+        ],
+        "tip": "Buying extra of anything 'to flip' is a bet — go in knowing it's a bet."
+      }
+    },
+    "preventiveMaintenance": {
+      "name": "Preventive Maintenance",
+      "icon": "Wrench",
+      "research": {
+        "headline": "Why small repairs beat big ones",
+        "points": [
+          "A small warning sign (like a check-engine light) usually costs far less to fix now than later.",
+          "Ignoring a problem doesn't make it go away — it usually makes it more expensive.",
+          "Preventive maintenance is one of the few costs that reliably saves you money over time."
+        ],
+        "tip": "A small check-up now is cheap insurance against a much bigger repair later."
+      }
+    },
+    "eventBudgeting": {
+      "name": "Budgeting for Events",
+      "icon": "Calendar",
+      "research": {
+        "headline": "Why one-off events need their own budget line",
+        "points": [
+          "Events like weddings rarely have just one cost — flights, gifts, and outfits all add up.",
+          "Budgeting for the whole event ahead of time avoids surprise charges creeping in.",
+          "It's okay to scale your involvement to what you can actually afford, not what feels expected."
+        ],
+        "tip": "The stress usually comes from the surprise, not the spending — plan the total ahead of time."
+      }
+    },
+    "repairVsReplace": {
+      "name": "Repair vs. Replace",
+      "icon": "Search",
+      "research": {
+        "headline": "How to weigh a cheap fix against a real one",
+        "points": [
+          "The cheapest fix isn't always the cheapest option — it can fail again and cost you twice.",
+          "A quality repair usually comes with some guarantee; a bargain fix usually doesn't.",
+          "Compare cost per year of use, not just the sticker price of the repair."
+        ],
+        "tip": "A repair that needs repeating isn't actually cheaper — it's the same bill, paid twice."
+      }
+    },
+    "directConversations": {
+      "name": "Direct Conversations",
+      "icon": "MessageCircle",
+      "research": {
+        "headline": "Why the awkward conversation is the cheap option",
+        "points": [
+          "Covering for someone quietly trains them to expect it — the pattern repeats.",
+          "A direct, low-key ask ('hey, did you get a chance to send that?') usually works.",
+          "You can be kind and still expect people to follow through on money commitments."
+        ],
+        "tip": "The conversation costs you a little discomfort once. Covering it costs you money every time."
+      }
+    }
+  },
+  "goalOptions": [
+    { "id": "business", "label": "Start a business", "icon": "Rocket" },
+    { "id": "investing", "label": "Learn to invest", "icon": "LineChart" },
+    { "id": "trading", "label": "Get into trading", "icon": "Activity" },
+    { "id": "saving", "label": "Save for something big", "icon": "PiggyBank" },
+    { "id": "credit", "label": "Build strong credit", "icon": "BadgeCheck" },
+    { "id": "general", "label": "Just get better with money", "icon": "Compass" }
+  ],
+  "goalPlaybooks": {
+    "business": {
+      "name": "Startup Basics",
+      "icon": "Rocket",
+      "research": {
+        "headline": "How to start without overspending",
+        "points": [
+          "A minimum viable product is the smallest version of your idea you can actually sell or test.",
+          "Courses and branding can wait — the fastest way to learn what works is a real customer.",
+          "Keep business money separate from personal money from day one, even informally."
+        ],
+        "tip": "Most early 'startup costs' are optional. The one thing you can't skip is talking to a real customer."
+      }
+    },
+    "investing": {
+      "name": "Investing Fundamentals",
+      "icon": "LineChart",
+      "research": {
+        "headline": "Why 'boring' investing usually wins",
+        "points": [
+          "A diversified fund spreads your risk across hundreds of companies instead of betting on one.",
+          "Individual stock picks can outperform — but they can also go to zero. A fund almost never does.",
+          "Time in the market matters more than perfectly timing which stock to pick."
+        ],
+        "tip": "The goal isn't to find the next big winner — it's to not need to."
+      }
+    },
+    "trading": {
+      "name": "Trading Discipline",
+      "icon": "Activity",
+      "research": {
+        "headline": "Why risk management beats hot tips",
+        "points": [
+          "Position sizing means never risking more on one trade than you can afford to lose.",
+          "A stop-loss is a plan for being wrong, set before emotions get involved.",
+          "Most active traders underperform a simple buy-and-hold approach over time."
+        ],
+        "tip": "The traders who last aren't the ones who are always right — they're the ones who lose small."
+      }
+    },
+    "saving": {
+      "name": "Big Goal Saving",
+      "icon": "PiggyBank",
+      "research": {
+        "headline": "Why a 'sinking fund' works better than hoping",
+        "points": [
+          "A sinking fund is money set aside on purpose for one specific goal, kept separate from everyday cash.",
+          "Automating the transfer means the saving happens before you have a chance to spend it.",
+          "A vague goal ('save more') is much easier to abandon than a specific one with a number and a date."
+        ],
+        "tip": "Money you never see in your main account is money you're far less likely to spend."
+      }
+    },
+    "credit": {
+      "name": "Credit Building Playbook",
+      "icon": "BadgeCheck",
+      "research": {
+        "headline": "What actually moves your credit score",
+        "points": [
+          "Credit utilization — how much of your limit you're using — is one of the biggest score factors.",
+          "Keeping utilization under 30%, and ideally lower, tends to help your score the most.",
+          "On-time payments matter even more than utilization — the two together do most of the work."
+        ],
+        "tip": "Paying down your balance before the statement closes (not just before it's due) is what actually lowers reported utilization."
+      }
+    },
+    "general": {
+      "name": "Money Fundamentals",
+      "icon": "Compass",
+      "research": {
+        "headline": "A simple way to split any paycheck",
+        "points": [
+          "The 50/30/20 rule: roughly 50% needs, 30% wants, 20% savings or debt payoff, as a starting point.",
+          "'Paying yourself first' means moving savings out before you budget the rest.",
+          "A simple plan you'll actually follow beats a perfect budget you'll abandon in a week."
+        ],
+        "tip": "You don't need a perfect system — you need a simple one you'll still be using in three months."
+      }
+    }
+  },
+  "goalCardAge": 19,
+  "milestones": [
+    {
+      "id": "m16",
+      "title": "First Job",
+      "age": 16,
+      "lessonKey": "paycheckBasics",
+      "smartSide": "left",
+      "prompt": "Two job offers on the table for your first real paycheck.",
+      "left": {
+        "label": "Retail — $11/hr, steady hours",
+        "cashDelta": 320,
+        "bagDelta": 8,
+        "job": "Retail Associate",
+        "receipt": [{ "label": "Paycheck (2 weeks)", "amount": 320 }]
+      },
+      "right": {
+        "label": "Babysitting — flexible, cash in hand",
+        "cashDelta": 260,
+        "bagDelta": 4,
+        "job": "Babysitter",
+        "receipt": [{ "label": "Babysitting jobs (2 weeks)", "amount": 260 }]
+      }
+    },
+    {
+      "id": "m17",
+      "title": "First Credit Card",
+      "age": 17,
+      "lessonKey": "creditBasics",
+      "smartSide": "right",
+      "prompt": "A pre-approved student card shows up in the mail. $500 limit.",
+      "left": {
+        "label": "Decline it — stick to debit for now",
+        "cashDelta": 0,
+        "bagDelta": -2,
+        "receipt": [
+          { "label": "No new charges", "amount": 0 },
+          { "label": "Credit history: not started yet", "amount": 0 }
+        ]
+      },
+      "right": {
+        "label": "Open it, buy textbooks, pay it in full",
+        "cashDelta": -60,
+        "bagDelta": 22,
+        "receipt": [
+          { "label": "Textbooks (credit card)", "amount": -60 },
+          { "label": "Paid in full — $0 interest", "amount": 0 }
+        ]
+      },
+      "tool": {
+        "requires": "paycheckBasics",
+        "label": "Open it — schedule the payoff from your next paycheck",
+        "cashDelta": -60,
+        "bagDelta": 28,
+        "receipt": [
+          { "label": "Textbooks (credit card)", "amount": -60 },
+          { "label": "Auto-pay from next net paycheck", "amount": 0 }
+        ]
+      }
+    },
+    {
+      "id": "m18",
+      "title": "Moving Out",
+      "age": 18,
+      "lessonKey": "readingLease",
+      "smartSide": "left",
+      "prompt": "You found an apartment. The lease is 14 pages long.",
+      "left": {
+        "label": "Read every clause before you sign",
+        "cashDelta": -650,
+        "bagDelta": 30,
+        "unlock": true,
+        "receipt": [
+          { "label": "Security deposit", "amount": -400 },
+          { "label": "First month rent", "amount": -250 },
+          { "label": "Caught a hidden fee, had it removed", "amount": 0 }
+        ]
+      },
+      "right": {
+        "label": "Skim it and sign — you want this place",
+        "cashDelta": -720,
+        "bagDelta": -15,
+        "receipt": [
+          { "label": "Security deposit", "amount": -400 },
+          { "label": "First month rent", "amount": -250 },
+          { "label": "Surprise amenity fee you missed", "amount": -70 }
+        ]
+      }
+    },
+    {
+      "id": "m20",
+      "title": "Investment Account",
+      "age": 20,
+      "lessonKey": "compoundInterest",
+      "smartSide": "left",
+      "prompt": "Your job offers a small retirement match. Or you keep all the cash now.",
+      "left": {
+        "label": "Open a Roth IRA, contribute a little",
+        "cashDelta": -40,
+        "bagDelta": 35,
+        "receipt": [
+          { "label": "IRA contribution", "amount": -40 },
+          { "label": "Employer match earned", "amount": 0 }
+        ]
+      },
+      "right": {
+        "label": "Skip it, take the extra in your check",
+        "cashDelta": 40,
+        "bagDelta": -10,
+        "receipt": [
+          { "label": "Extra cash in pocket", "amount": 40 },
+          { "label": "Compound growth you won't get back", "amount": 0 }
+        ]
+      }
+    },
+    {
+      "id": "m22",
+      "title": "Ask for a Raise",
+      "age": 22,
+      "lessonKey": "negotiating",
+      "smartSide": "left",
+      "prompt": "Performance review. Your manager opens with a number.",
+      "left": {
+        "label": "Counter — ask for more, reasons ready",
+        "cashDelta": 180,
+        "bagDelta": 28,
+        "receipt": [{ "label": "Negotiated raise (prorated)", "amount": 180 }]
+      },
+      "right": {
+        "label": "Accept it, don't rock the boat",
+        "cashDelta": 90,
+        "bagDelta": 2,
+        "receipt": [{ "label": "Accepted raise (prorated)", "amount": 90 }]
+      }
+    },
+    {
+      "id": "m24",
+      "title": "Emergency Fund Test",
+      "age": 24,
+      "lessonKey": "emergencyFund",
+      "smartSide": "left",
+      "prompt": "Your car dies on the highway. Repair bill: $480.",
+      "left": {
+        "label": "Pay cash from the emergency fund",
+        "cashDelta": -480,
+        "bagDelta": 20,
+        "receipt": [
+          { "label": "Repair bill", "amount": -480 },
+          { "label": "Interest paid", "amount": 0 }
+        ]
+      },
+      "right": {
+        "label": "Put it on the card, deal with it later",
+        "cashDelta": -540,
+        "bagDelta": -20,
+        "receipt": [
+          { "label": "Repair bill", "amount": -480 },
+          { "label": "Interest (3 months to pay off)", "amount": -60 }
+        ]
+      }
+    }
+  ],
+  "typeCards": {
+    "saver": [
+      {
+        "id": "s1",
+        "title": "Concert Tickets",
+        "lessonKey": "opportunityCost",
+        "smartSide": "left",
+        "prompt": "Your favorite artist is playing 20 minutes away. Tickets are $85.",
+        "left": {
+          "label": "Buy it — you can afford it, this night won't repeat",
+          "cashDelta": -85,
+          "bagDelta": 6,
+          "receipt": [
+            { "label": "Concert ticket", "amount": -85 },
+            { "label": "A memory your balance won't show you", "amount": 0 }
+          ]
+        },
+        "right": {
+          "label": "Skip it, stack the $85 into savings",
+          "cashDelta": 0,
+          "bagDelta": -4,
+          "receipt": [
+            { "label": "Moved to savings", "amount": 0 },
+            { "label": "Opportunity cost: one night, gone", "amount": 0 }
+          ]
+        }
+      },
+      {
+        "id": "s2",
+        "title": "The Guaranteed Return",
+        "lessonKey": "highYieldSavings",
+        "smartSide": "left",
+        "prompt": "$200 has been sitting in checking, doing nothing, for months.",
+        "left": {
+          "label": "Move it to a high-yield savings account",
+          "cashDelta": 0,
+          "bagDelta": 10,
+          "receipt": [{ "label": "Moved to HYSA (4.5% APY)", "amount": 0 }]
+        },
+        "right": {
+          "label": "Leave it — it feels safer where you can see it",
+          "cashDelta": 0,
+          "bagDelta": -6,
+          "receipt": [{ "label": "Sitting in checking at 0.01% APY", "amount": 0 }]
+        }
+      },
+      {
+        "id": "s3",
+        "title": "The Group Gift",
+        "lessonKey": "eventBudgeting",
+        "smartSide": "left",
+        "prompt": "Five friends want to go in on a $200 birthday gift. Your share is $40.",
+        "left": {
+          "label": "Chip in — you budgeted for this friend",
+          "cashDelta": -40,
+          "bagDelta": 5,
+          "receipt": [{ "label": "Group gift share", "amount": -40 }]
+        },
+        "right": {
+          "label": "Skip it to protect the savings number",
+          "cashDelta": 0,
+          "bagDelta": -3,
+          "receipt": [
+            { "label": "Kept the $40", "amount": 0 },
+            { "label": "The friendship cost isn't on the receipt", "amount": 0 }
+          ]
+        }
+      },
+      {
+        "id": "s4",
+        "title": "The Gym You Don't Use",
+        "lessonKey": "subscriptionAudit",
+        "smartSide": "left",
+        "prompt": "You haven't gone in 4 months. Cancelling feels like admitting you quit.",
+        "left": {
+          "label": "Cancel it. Restart later if you actually go.",
+          "cashDelta": 0,
+          "bagDelta": 11,
+          "receipt": [{ "label": "Monthly fee stopped", "amount": 0 }, { "label": "Saved going forward", "amount": 29 }]
+        },
+        "right": {
+          "label": "Keep paying — you'll go next week, probably",
+          "cashDelta": -29,
+          "bagDelta": -7,
+          "receipt": [{ "label": "Another unused month", "amount": -29 }]
+        }
+      },
+      {
+        "id": "s5",
+        "title": "Laptop on Sale",
+        "lessonKey": "repairVsReplace",
+        "smartSide": "left",
+        "prompt": "Your laptop is slow, not broken. A 'once a year' sale is $900.",
+        "left": {
+          "label": "Get it serviced for $90, keep using it",
+          "cashDelta": -90,
+          "bagDelta": 8,
+          "receipt": [{ "label": "Tune-up + extra RAM", "amount": -90 }]
+        },
+        "right": {
+          "label": "Buy new — the sale might not come back",
+          "cashDelta": -900,
+          "bagDelta": -12,
+          "receipt": [{ "label": "New laptop", "amount": -900 }, { "label": "Old one still worked", "amount": 0 }]
+        }
+      },
+      {
+        "id": "s6",
+        "title": "Pay Yourself First",
+        "lessonKey": "highYieldSavings",
+        "smartSide": "left",
+        "prompt": "Payday. You usually save whatever is left. This month that was $0.",
+        "left": {
+          "label": "Auto-transfer $40 the morning the check hits",
+          "cashDelta": -40,
+          "bagDelta": 12,
+          "receipt": [{ "label": "Moved before you could spend it", "amount": -40 }]
+        },
+        "right": {
+          "label": "Wait and see what's left on the 30th",
+          "cashDelta": 0,
+          "bagDelta": -5,
+          "receipt": [{ "label": "Nothing left to save", "amount": 0 }]
+        }
+      },
+      {
+        "id": "s7",
+        "title": "The 'Free' Trial",
+        "lessonKey": "subscriptionAudit",
+        "smartSide": "left",
+        "prompt": "A money app offers 30 days free, then $12.99. You already track in a notes app.",
+        "left": {
+          "label": "Skip it — you don't need another login",
+          "cashDelta": 0,
+          "bagDelta": 7,
+          "receipt": [{ "label": "Trial skipped", "amount": 0 }]
+        },
+        "right": {
+          "label": "Start the trial, set a reminder to cancel",
+          "cashDelta": -13,
+          "bagDelta": -6,
+          "receipt": [{ "label": "Reminder missed, first charge hits", "amount": -13 }]
+        }
+      },
+      {
+        "id": "s8",
+        "title": "Used Car, Cash vs Loan",
+        "lessonKey": "opportunityCost",
+        "smartSide": "left",
+        "prompt": "A reliable used car is $3,200. You have it in savings. A dealer offers 9% financing.",
+        "left": {
+          "label": "Pay cash — 9% is a terrible loan",
+          "cashDelta": -3200,
+          "bagDelta": 14,
+          "receipt": [{ "label": "Car paid in full", "amount": -3200 }, { "label": "Interest avoided", "amount": 0 }]
+        },
+        "right": {
+          "label": "Finance it to keep the savings number high",
+          "cashDelta": -90,
+          "bagDelta": -9,
+          "receipt": [{ "label": "First loan payment", "amount": -90 }, { "label": "Interest you'll keep paying", "amount": 0 }]
+        }
+      },
+      {
+        "id": "s9",
+        "title": "The Gift Card Drawer",
+        "lessonKey": "followThrough",
+        "smartSide": "left",
+        "prompt": "You find $75 in unused gift cards from two birthdays ago.",
+        "left": {
+          "label": "Spend them this week on things you already buy",
+          "cashDelta": 75,
+          "bagDelta": 6,
+          "receipt": [{ "label": "Replaced cash purchases", "amount": 75 }]
+        },
+        "right": {
+          "label": "Leave them — feels like breaking a seal",
+          "cashDelta": 0,
+          "bagDelta": -4,
+          "receipt": [{ "label": "Still sitting in a drawer", "amount": 0 }]
+        }
+      },
+      {
+        "id": "s10",
+        "title": "Renters Insurance",
+        "lessonKey": "preventiveMaintenance",
+        "smartSide": "left",
+        "prompt": "Renters insurance is $12/month. You've never filed a claim. Your stuff would cost ~$2,000 to replace.",
+        "left": {
+          "label": "Start it — $12 is cheaper than a laptop",
+          "cashDelta": -12,
+          "bagDelta": 9,
+          "receipt": [{ "label": "First month premium", "amount": -12 }]
+        },
+        "right": {
+          "label": "Skip it — that's $144 a year for nothing",
+          "cashDelta": 0,
+          "bagDelta": -5,
+          "receipt": [{ "label": "Uninsured", "amount": 0 }, { "label": "One theft would wipe the 'savings'", "amount": 0 }]
+        }
+      }
+    ],
+    "splurger": [
+      {
+        "id": "sp1",
+        "title": "The Bill Comes Due",
+        "lessonKey": "debtPayoff",
+        "smartSide": "left",
+        "prompt": "Three months ago: a $300 haul on the card. You've been paying the minimum.",
+        "left": {
+          "label": "Pay it off in full this month",
+          "cashDelta": -340,
+          "bagDelta": 15,
+          "receipt": [
+            { "label": "Remaining balance", "amount": -300 },
+            { "label": "Accrued interest", "amount": -40 }
+          ]
+        },
+        "right": {
+          "label": "Keep paying the minimum",
+          "cashDelta": -25,
+          "bagDelta": -14,
+          "receipt": [
+            { "label": "Minimum payment", "amount": -25 },
+            { "label": "Balance still owed", "amount": -315 }
+          ]
+        }
+      },
+      {
+        "id": "sp2",
+        "title": "Subscription Creep Audit",
+        "lessonKey": "subscriptionAudit",
+        "smartSide": "left",
+        "prompt": "Your bank app: 7 subscriptions you forgot about, $64/month combined.",
+        "left": {
+          "label": "Cancel the four you don't use",
+          "cashDelta": 0,
+          "bagDelta": 12,
+          "receipt": [
+            { "label": "Cancelled subscriptions", "amount": 0 },
+            { "label": "Monthly savings going forward", "amount": 38 }
+          ]
+        },
+        "right": {
+          "label": "You'll deal with it later",
+          "cashDelta": -64,
+          "bagDelta": -8,
+          "receipt": [{ "label": "Subscriptions charged again", "amount": -64 }]
+        }
+      }
+    ],
+    "freezer": [
+      {
+        "id": "f1",
+        "title": "You Must Decide: The Rent Split",
+        "lessonKey": "fairSplits",
+        "smartSide": "left",
+        "prompt": "Your roommate wants to split rent 50/50 — even though her room is bigger. She's waiting.",
+        "left": {
+          "label": "Say something — ask for a fair split",
+          "cashDelta": 45,
+          "bagDelta": 14,
+          "receipt": [{ "label": "Adjusted rent share", "amount": 45 }]
+        },
+        "right": {
+          "label": "Agree to 50/50 to avoid the conversation",
+          "cashDelta": -45,
+          "bagDelta": -10,
+          "receipt": [{ "label": "Overpaid rent share", "amount": -45 }]
+        }
+      },
+      {
+        "id": "f2",
+        "title": "You Must Decide: The Refund",
+        "lessonKey": "followThrough",
+        "smartSide": "left",
+        "prompt": "A store owes you $60 — but getting it means an awkward phone call.",
+        "left": {
+          "label": "Make the call, get the $60 back",
+          "cashDelta": 60,
+          "bagDelta": 10,
+          "receipt": [{ "label": "Refund recovered", "amount": 60 }]
+        },
+        "right": {
+          "label": "Let it go — not worth the discomfort",
+          "cashDelta": 0,
+          "bagDelta": -6,
+          "receipt": [{ "label": "Refund left on the table", "amount": 0 }]
+        }
+      }
+    ],
+    "chaser": [
+      {
+        "id": "c1",
+        "title": "Meme Stock Hype",
+        "lessonKey": "hypeVsFundamentals",
+        "smartSide": "left",
+        "prompt": "Everyone's group chat is losing it over a stock that tripled this week.",
+        "left": {
+          "label": "Skip it — check the fundamentals first",
+          "cashDelta": 0,
+          "bagDelta": 16,
+          "receipt": [{ "label": "Stayed out of the hype cycle", "amount": 0 }]
+        },
+        "right": {
+          "label": "Ape in with $150, FOMO is real",
+          "cashDelta": -150,
+          "bagDelta": -22,
+          "receipt": [
+            { "label": "Invested at the peak", "amount": -150 },
+            { "label": "Value one week later", "amount": -95 }
+          ]
+        }
+      },
+      {
+        "id": "c2",
+        "title": "The Drop",
+        "lessonKey": "resaleRisk",
+        "smartSide": "left",
+        "prompt": "Limited sneaker drop. Resale is 'supposedly' about to triple.",
+        "left": {
+          "label": "Skip the drop",
+          "cashDelta": 0,
+          "bagDelta": 8,
+          "receipt": [{ "label": "Stayed out", "amount": 0 }]
+        },
+        "right": {
+          "label": "Buy two pairs to resell",
+          "cashDelta": -240,
+          "bagDelta": -16,
+          "receipt": [
+            { "label": "Two pairs purchased", "amount": -240 },
+            { "label": "Resale value (nobody wants pair two)", "amount": 90 }
+          ]
+        }
+      }
+    ]
+  },
+  "wildcards": [
+    {
+      "id": "w1",
+      "title": "Car Trouble",
+      "lessonKey": "preventiveMaintenance",
+      "smartSide": "left",
+      "prompt": "Check engine light. The mechanic says it's not urgent, but shouldn't wait forever.",
+      "left": {
+        "label": "Get it checked now",
+        "cashDelta": -90,
+        "bagDelta": 6,
+        "receipt": [{ "label": "Diagnostic + minor fix", "amount": -90 }]
+      },
+      "right": {
+        "label": "Ignore it for now",
+        "cashDelta": 0,
+        "bagDelta": -8,
+        "receipt": [
+          { "label": "Deferred maintenance", "amount": 0 },
+          { "label": "Risk: bigger repair later", "amount": 0 }
+        ]
+      },
+      "tool": {
+        "requires": "emergencyFund",
+        "label": "Pay the diagnostic from your emergency fund",
+        "cashDelta": -90,
+        "bagDelta": 12,
+        "receipt": [
+          { "label": "Diagnostic + minor fix", "amount": -90 },
+          { "label": "Paid from emergency fund — no new debt", "amount": 0 }
+        ]
+      }
+    },
+    {
+      "id": "w2",
+      "title": "Wedding Season",
+      "lessonKey": "eventBudgeting",
+      "smartSide": "left",
+      "prompt": "A friend's wedding — flight, gift, and an outfit you don't already own.",
+      "left": {
+        "label": "Go, and budget for it",
+        "cashDelta": -210,
+        "bagDelta": 5,
+        "receipt": [{ "label": "Flight + gift + outfit", "amount": -210 }]
+      },
+      "right": {
+        "label": "Send a card, skip the trip",
+        "cashDelta": -25,
+        "bagDelta": 0,
+        "receipt": [{ "label": "Card + small gift", "amount": -25 }]
+      }
+    },
+    {
+      "id": "w3",
+      "title": "Cracked Screen",
+      "lessonKey": "repairVsReplace",
+      "smartSide": "left",
+      "prompt": "You drop your phone. The screen is spiderwebbed.",
+      "left": {
+        "label": "Pay for the official repair",
+        "cashDelta": -129,
+        "bagDelta": 4,
+        "receipt": [{ "label": "Screen repair", "amount": -129 }]
+      },
+      "right": {
+        "label": "Use the janky third-party fix",
+        "cashDelta": -45,
+        "bagDelta": -3,
+        "receipt": [
+          { "label": "Cheap repair", "amount": -45 },
+          { "label": "Screen dims randomly now", "amount": 0 }
+        ]
+      }
+    },
+    {
+      "id": "w4",
+      "title": "Roommate Ghosts on Rent",
+      "lessonKey": "directConversations",
+      "smartSide": "left",
+      "prompt": "Your roommate 'forgot' to Venmo their half. Again.",
+      "left": {
+        "label": "Have the direct conversation",
+        "cashDelta": 0,
+        "bagDelta": 10,
+        "receipt": [{ "label": "Recovered this month's share", "amount": 0 }]
+      },
+      "right": {
+        "label": "Cover it yourself, skip the drama",
+        "cashDelta": -380,
+        "bagDelta": -12,
+        "receipt": [{ "label": "Covered roommate's half", "amount": -380 }]
+      },
+      "tool": {
+        "requires": "readingLease",
+        "label": "Cite the roommate clause you highlighted in the lease",
+        "cashDelta": 0,
+        "bagDelta": 16,
+        "receipt": [
+          { "label": "Share recovered", "amount": 0 },
+          { "label": "Lease clause did the talking", "amount": 0 }
+        ]
+      }
+    }
+  ],
+  "goalCards": {
+    "business": {
+      "id": "goal-business",
+      "title": "The Side Hustle Idea",
+      "lessonKey": "business",
+      "smartSide": "left",
+      "prompt": "You want to start selling something online. A 'startup mentor' course promises to teach you everything for $300.",
+      "left": {
+        "label": "Skip the course — start small, sell to 5 people, learn as you go",
+        "cashDelta": 0,
+        "bagDelta": 18,
+        "receipt": [
+          { "label": "Course skipped", "amount": 0 },
+          { "label": "First sale — real market feedback", "amount": 0 }
+        ]
+      },
+      "right": {
+        "label": "Buy the course before making a single sale",
+        "cashDelta": -300,
+        "bagDelta": -14,
+        "receipt": [
+          { "label": "Startup mentor course", "amount": -300 },
+          { "label": "Still haven't sold anything", "amount": 0 }
+        ]
+      }
+    },
+    "investing": {
+      "id": "goal-investing",
+      "title": "Your First Index Fund",
+      "lessonKey": "investing",
+      "smartSide": "left",
+      "prompt": "You've got $300 to start investing. A friend's hyping up three individual stock tickers.",
+      "left": {
+        "label": "Put it in a low-cost index fund instead",
+        "cashDelta": -300,
+        "bagDelta": 20,
+        "receipt": [
+          { "label": "Index fund investment", "amount": -300 },
+          { "label": "Instantly diversified across hundreds of companies", "amount": 0 }
+        ]
+      },
+      "right": {
+        "label": "Split it across the three hot tickers",
+        "cashDelta": -300,
+        "bagDelta": -16,
+        "receipt": [
+          { "label": "Three individual stock picks", "amount": -300 },
+          { "label": "All eggs, one basket", "amount": 0 }
+        ]
+      }
+    },
+    "trading": {
+      "id": "goal-trading",
+      "title": "The Hot Tip",
+      "lessonKey": "trading",
+      "smartSide": "left",
+      "prompt": "A trading group is 'guaranteeing' a breakout on one ticker tomorrow.",
+      "left": {
+        "label": "Size it small, set a stop-loss, treat it as a test",
+        "cashDelta": -40,
+        "bagDelta": 18,
+        "receipt": [
+          { "label": "Small test position", "amount": -40 },
+          { "label": "Stop-loss set", "amount": 0 }
+        ]
+      },
+      "right": {
+        "label": "Go all-in on the 'guaranteed' tip",
+        "cashDelta": -260,
+        "bagDelta": -24,
+        "receipt": [
+          { "label": "Full account swing", "amount": -260 },
+          { "label": "No guarantees in trading", "amount": 0 }
+        ]
+      }
+    },
+    "saving": {
+      "id": "goal-saving",
+      "title": "The Sinking Fund",
+      "lessonKey": "saving",
+      "smartSide": "left",
+      "prompt": "You're saving for something big. Right now it's just 'whatever's left over' at the end of the month.",
+      "left": {
+        "label": "Open a separate account, automate a transfer every payday",
+        "cashDelta": -60,
+        "bagDelta": 20,
+        "receipt": [{ "label": "Auto-transfer to dedicated savings", "amount": -60 }]
+      },
+      "right": {
+        "label": "Keep it all in one account, save what's left",
+        "cashDelta": 0,
+        "bagDelta": -10,
+        "receipt": [{ "label": "Nothing set aside this month", "amount": 0 }]
+      }
+    },
+    "credit": {
+      "id": "goal-credit",
+      "title": "The Utilization Check",
+      "lessonKey": "credit",
+      "smartSide": "left",
+      "prompt": "Your card balance is sitting at 80% of your limit. Statement closes in 3 days.",
+      "left": {
+        "label": "Pay it down before the statement closes",
+        "cashDelta": -200,
+        "bagDelta": 20,
+        "receipt": [
+          { "label": "Paid down balance", "amount": -200 },
+          { "label": "Utilization drops before it reports", "amount": 0 }
+        ]
+      },
+      "right": {
+        "label": "Let it ride, you'll pay the minimum anyway",
+        "cashDelta": -20,
+        "bagDelta": -14,
+        "receipt": [
+          { "label": "Minimum payment", "amount": -20 },
+          { "label": "High utilization reports to your score", "amount": 0 }
+        ]
+      }
+    },
+    "general": {
+      "id": "goal-general",
+      "title": "The 50/30/20 Split",
+      "lessonKey": "general",
+      "smartSide": "left",
+      "prompt": "Your first full paycheck just landed. No plan for it yet.",
+      "left": {
+        "label": "Split it: needs, wants, and savings, on purpose",
+        "cashDelta": 0,
+        "bagDelta": 18,
+        "receipt": [{ "label": "Budgeted on purpose", "amount": 0 }]
+      },
+      "right": {
+        "label": "Spend as it comes, see what's left",
+        "cashDelta": -80,
+        "bagDelta": -10,
+        "receipt": [{ "label": "Untracked spending", "amount": -80 }]
+      }
+    }
+  }
+}
