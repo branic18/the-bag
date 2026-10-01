@@ -6,7 +6,7 @@
 
 BitLife makes life disposable. **The Bag** makes your financial identity permanent: a life-sim where every swipe is a real money decision, every choice prints a receipt with the real math, and your Bag Score (300–850, like a credit score) carries over even when the character ends. It's built to be played in a minute a day, and a free daily Bag Check keeps players coming back.
 
-**Demo video:** _coming soon_ — [add YouTube / Vimeo link here](#)
+**Demo video:** [link](https://www.loom.com/share/fecbd7f35c474a2e8511a6d9002262aa)
 
 **Bag Score:** smart choices add points; avoidant or impulse choices subtract.
 
