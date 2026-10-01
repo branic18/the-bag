@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Purchases, PurchasesError, ErrorCode } from "@revenuecat/purchases-js";
 import { clearState, loadState, makeBagCheckState, getTodayBagCheck, saveState } from "./localBackend.js";
 import { shareBagCheckCard } from "./shareCard.js";
 import {
@@ -949,7 +950,47 @@ function LessonRow({ meta, state }) {
   );
 }
 
-function LifeScreen({ av, life, ledger, onAgeUp, goal }) {
+function LifeSlotTab({ index, slot, active, locked, onSelect }) {
+  return (
+    <button onClick={() => onSelect(index)} style={{
+      flex: 1, textAlign: "left", padding: "11px 13px", borderRadius: 16, cursor: "pointer",
+      background: active ? T.black : T.white,
+      border: `1.5px solid ${active ? T.black : T.line}`,
+      boxShadow: active ? "0 12px 24px -16px rgba(10,46,93,0.6)" : "none",
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        {locked && <Lock size={12} color={T.inkSoft} strokeWidth={2.6} />}
+        <span style={{ fontFamily: FONT_BODY, fontWeight: 700, fontSize: 13, color: active ? T.white : locked ? T.inkSoft : T.ink }}>
+          Life {index + 1}
+        </span>
+      </div>
+      <div style={{ fontFamily: FONT_BODY, fontSize: 11.5, marginTop: 3, color: active ? "rgba(255,255,255,0.75)" : T.inkSoft }}>
+        {locked ? "Premium \u2014 tap to unlock" : `Age ${slot.age} \u00B7 ${money(slot.cash)}`}
+      </div>
+    </button>
+  );
+}
+
+function LifeSlotSwitcher({ lives, activeSlot, isPremium, onSelect }) {
+  return (
+    <div>
+      <SectionHeader title="Lives" right={isPremium ? `${lives.length} slots` : "1 of 2 slots"} />
+      <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+        {lives.map((slot, i) => (
+          <LifeSlotTab key={i} index={i} slot={slot} active={i === activeSlot}
+            locked={i > 0 && !isPremium} onSelect={onSelect} />
+        ))}
+      </div>
+      <div style={{ fontFamily: FONT_BODY, fontSize: 12, color: T.inkSoft, marginTop: 8, lineHeight: 1.45 }}>
+        {isPremium
+          ? "Run both lives side by side \u2014 they share one Bag Score."
+          : "Premium runs a second life side by side, so you can test a different path without giving this one up."}
+      </div>
+    </div>
+  );
+}
+
+function LifeScreen({ av, life, ledger, onAgeUp, goal, lives, activeSlot, isPremium, onSelectSlot }) {
   const stage = LIFE_STAGE(life.age);
   const playbookEntries = Object.entries(PLAYBOOKS);
   const lessonEntries = Object.entries(LESSONS);
@@ -985,6 +1026,10 @@ function LifeScreen({ av, life, ledger, onAgeUp, goal }) {
               {life.cardsThisLife} decision{life.cardsThisLife === 1 ? "" : "s"} made this life
             </div>
           </div>
+        </div>
+
+        <div style={{ padding: "22px 20px 0" }}>
+          <LifeSlotSwitcher lives={lives} activeSlot={activeSlot} isPremium={isPremium} onSelect={onSelectSlot} />
         </div>
 
         <div style={{ padding: "22px 20px 0" }}>
@@ -1253,7 +1298,7 @@ function ComparisonBar({ label, pct, highlight }) {
   );
 }
 
-function SettingsScreen({ av, moneyType, onOpenPaywall, onResetAll }) {
+function SettingsScreen({ av, moneyType, isPremium, onOpenPaywall, onResetAll }) {
   const mt = MONEY_TYPES[moneyType];
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -1271,13 +1316,19 @@ function SettingsScreen({ av, moneyType, onOpenPaywall, onResetAll }) {
           marginTop: 18, width: "100%", textAlign: "left", background: T.primaryDeep,
           border: "none", borderRadius: 18, padding: "16px 18px", cursor: "pointer", color: T.white,
         }}>
-          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 15.5 }}>Upgrade to Family Plan</div>
-          <div style={{ fontFamily: FONT_BODY, fontSize: 12.5, marginTop: 4, color: "rgba(255,255,255,0.9)" }}>The Bag Check stays free either way — this unlocks extra Decision Decks & customization.</div>
+          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 15.5 }}>
+            {isPremium ? "Manage your plan" : "Upgrade to Family Plan"}
+          </div>
+          <div style={{ fontFamily: FONT_BODY, fontSize: 12.5, marginTop: 4, color: "rgba(255,255,255,0.9)" }}>
+            {isPremium
+              ? "Your second Life slot and the full Decision Deck library are unlocked."
+              : "The Bag Check stays free either way — this unlocks a second Life slot, extra Decision Decks & customization."}
+          </div>
         </button>
 
         <div style={{ marginTop: 22, fontFamily: FONT_BODY, fontSize: 12, fontWeight: 700, color: T.inkSoft, letterSpacing: 1 }}>ACCOUNT</div>
         <SettingsRow icon={Bell} label="Notifications" value="Daily Bag Check reminder" />
-        <SettingsRow icon={CreditCard} label="Subscription" value="Free plan" />
+        <SettingsRow icon={CreditCard} label="Subscription" value={isPremium ? "Premium \u2014 active" : "Free plan"} />
         <SettingsRow icon={HelpCircle} label="Help & feedback" value="" />
 
         <div style={{ marginTop: 22, fontFamily: FONT_BODY, fontSize: 12, fontWeight: 700, color: T.inkSoft, letterSpacing: 1 }}>DEMO CONTROLS</div>
@@ -1308,55 +1359,279 @@ function SettingsRow({ icon: Icon, label, value }) {
   );
 }
 
-function PaywallOverlay({ onClose }) {
-  const [annual, setAnnual] = useState(true);
+/* ---------------------------------------------------------------------------
+   PAYWALL — RevenueCat Web SDK
+   Plans, prices, trials and perk copy are read off the current offering in the
+   RevenueCat dashboard, so pricing can be retuned without shipping a build.
+   Checkout is RevenueCat Web Billing (Stripe), opened by purchase().
+--------------------------------------------------------------------------- */
+
+// The entitlement every paid plan grants; premium features gate on this.
+const PREMIUM_ENTITLEMENT = "premium";
+
+// configure() is idempotent and both the entitlement hook and the paywall need
+// it to have happened, so neither has to be the one that runs first.
+function configurePurchases() {
+  if (Purchases.isConfigured()) return true;
+
+  // A stable app user ID is what lets RevenueCat recognize a returning player's
+  // purchase, so it outlives the game save and is never regenerated.
+  let playerId = localStorage.getItem("bag_player_id");
+  if (!playerId) {
+    playerId = `player_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+    localStorage.setItem("bag_player_id", playerId);
+  }
+
+  const apiKey = import.meta.env.VITE_REVENUECAT_API_KEY || "YOUR_REVENUECAT_WEB_PUBLIC_KEY";
+  try {
+    Purchases.configure({ apiKey, appUserId: playerId });
+    return true;
+  } catch (err) {
+    // A missing/invalid key throws here. Callers fall back to the free tier and
+    // the paywall explains itself, rather than taking the whole app down.
+    console.warn("RevenueCat not configured:", err);
+    return false;
+  }
+}
+
+/* Premium is read from RevenueCat, never from a local flag a player could edit,
+   so the second Life slot can't be unlocked by hand-editing localStorage. */
+function usePremiumEntitlement() {
+  const [isPremium, setIsPremium] = useState(false);
+
+  const syncFromCustomerInfo = useCallback((customerInfo) => {
+    setIsPremium(!!customerInfo?.entitlements?.active?.[PREMIUM_ENTITLEMENT]);
+  }, []);
+
+  useEffect(() => {
+    let live = true;
+    const read = async () => {
+      if (!configurePurchases()) return;
+      try {
+        const customerInfo = await Purchases.getSharedInstance().getCustomerInfo();
+        if (live) syncFromCustomerInfo(customerInfo);
+      } catch (err) {
+        console.warn("Couldn't read RevenueCat entitlements:", err);
+      }
+    };
+    read();
+    // Web Billing checkout and cancellations both happen in another tab, so the
+    // entitlement is re-read every time the player comes back to this one.
+    const onVisible = () => { if (document.visibilityState === "visible") read(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => { live = false; document.removeEventListener("visibilitychange", onVisible); };
+  }, [syncFromCustomerInfo]);
+
+  return { isPremium, syncFromCustomerInfo };
+}
+
+// Used when the offering carries no `features` metadata of its own.
+const FALLBACK_PERKS = [
+  "A second Life slot \u2014 two lives running at once",
+  "Full Decision Deck library, all Money Types",
+  "Extra avatar customization",
+  "Parent dashboard & spending insight reports",
+  "The Bag Check is always free \u2014 upgrade or not",
+];
+
+function offeringPerks(offering) {
+  const fromDashboard = offering?.metadata?.features;
+  const copy = Array.isArray(fromDashboard) ? fromDashboard.filter((f) => typeof f === "string") : [];
+  return copy.length ? copy : FALLBACK_PERKS;
+}
+
+// Web Billing returns a structured billing period per package, so a plan of a
+// new length (quarterly, lifetime) labels itself without a client change.
+function pricePeriod(pkg) {
+  const period = pkg.product?.period;
+  if (!period) return "one-time";
+  return period.number > 1 ? `/${period.number} ${period.unit}s` : `/${period.unit}`;
+}
+
+function trialLength(pkg) {
+  const trial = pkg.product?.freeTrialPhase?.period;
+  if (!trial) return null;
+  return `${trial.number} ${trial.unit}${trial.number > 1 ? "s" : ""} free`;
+}
+
+function describePurchasesError(err) {
+  if (err instanceof PurchasesError) {
+    if (err.errorCode === ErrorCode.InvalidCredentialsError) return "RevenueCat rejected this API key.";
+    if (err.errorCode === ErrorCode.NetworkError) return "Couldn't reach RevenueCat \u2014 check the connection.";
+    return err.message;
+  }
+  return "Something went wrong loading checkout.";
+}
+
+function PaywallOverlay({ onClose, onPurchaseComplete }) {
+  // loading -> ready (plans fetched) | owned (entitlement already active) | unavailable
+  const [offer, setOffer] = useState({ status: "loading" });
+  const [selectedId, setSelectedId] = useState(null);
+  const [buying, setBuying] = useState(false);
   const [msg, setMsg] = useState("");
+
+  useEffect(() => {
+    let live = true;
+    (async () => {
+      if (!Purchases.isConfigured()) {
+        if (live) setOffer({ status: "unavailable", detail: "Set VITE_REVENUECAT_API_KEY to load live plans." });
+        return;
+      }
+      try {
+        const purchases = Purchases.getSharedInstance();
+        const [offerings, customerInfo] = await Promise.all([purchases.getOfferings(), purchases.getCustomerInfo()]);
+        if (!live) return;
+        if (customerInfo.entitlements.active[PREMIUM_ENTITLEMENT]) {
+          setOffer({ status: "owned", managementURL: customerInfo.managementURL });
+          return;
+        }
+        const offering = offerings.current;
+        const packages = offering?.availablePackages ?? [];
+        if (!packages.length) {
+          setOffer({ status: "unavailable", detail: "No plans are attached to the current offering yet." });
+          return;
+        }
+        setSelectedId(packages[0].identifier);
+        setOffer({ status: "ready", offering, packages, perks: offeringPerks(offering) });
+      } catch (err) {
+        if (live) setOffer({ status: "unavailable", detail: describePurchasesError(err) });
+      }
+    })();
+    return () => { live = false; };
+  }, []);
+
+  const packages = offer.status === "ready" ? offer.packages : [];
+  const selected = packages.find((p) => p.identifier === selectedId) || null;
+
+  const onBuy = async () => {
+    if (!selected || buying) return;
+    setBuying(true);
+    setMsg("");
+    try {
+      // Opens RevenueCat's hosted Web Billing checkout, then resolves with the
+      // customer info RevenueCat has already reconciled server-side.
+      const { customerInfo } = await Purchases.getSharedInstance().purchase({ rcPackage: selected });
+      setOffer({ status: "owned", managementURL: customerInfo.managementURL });
+      onPurchaseComplete?.(customerInfo);
+      if (!customerInfo.entitlements.active[PREMIUM_ENTITLEMENT]) {
+        setMsg(`Payment went through, but this product doesn't grant the "${PREMIUM_ENTITLEMENT}" entitlement yet.`);
+      }
+    } catch (err) {
+      if (err instanceof PurchasesError && err.errorCode === ErrorCode.UserCancelledError) {
+        setMsg("Checkout closed \u2014 you weren't charged.");
+      } else {
+        setMsg(describePurchasesError(err));
+      }
+    } finally {
+      setBuying(false);
+    }
+  };
+
   return (
     <div style={{ ...overlayWrapStyle, background: "rgba(10,46,93,0.75)" }}>
       <div style={{ width: "88%", maxWidth: 330, background: T.cream, borderRadius: 26, padding: "22px 20px 20px", position: "relative", boxShadow: "0 30px 60px -20px rgba(0,0,0,0.5)" }}>
         <button onClick={onClose} style={{ position: "absolute", top: 14, right: 14, background: T.cream2, border: "none", borderRadius: 999, width: 30, height: 30, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
           <X size={15} color={T.ink} />
         </button>
-        <div style={{ textAlign: "center" }}>
-          <Trophy size={30} color={T.teal} />
-          <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20, color: T.ink, marginTop: 8 }}>Family Plan</div>
-          <div style={{ fontFamily: FONT_BODY, fontSize: 13, color: T.inkSoft, marginTop: 4 }}>One parent subscription, one teen player.</div>
-        </div>
 
-        <div style={{ display: "flex", background: T.cream2, borderRadius: 12, padding: 4, marginTop: 18 }}>
-          <button onClick={() => setAnnual(false)} style={togBtnStyle(!annual)}>Monthly</button>
-          <button onClick={() => setAnnual(true)} style={togBtnStyle(annual)}>Annual <span style={{ color: "#0A6B44" }}>· save 34%</span></button>
-        </div>
-
-        <div style={{ textAlign: "center", marginTop: 16 }}>
-          <span style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 34, color: T.ink }}>{annual ? "$79" : "$9.99"}</span>
-          <span style={{ fontFamily: FONT_BODY, fontSize: 13, color: T.inkSoft }}>/{annual ? "year" : "month"}</span>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 18 }}>
-          {["Full Decision Deck library, all Money Types", "Extra avatar customization", "Parent dashboard & spending insight reports", "The Bag Check is always free \u2014 upgrade or not"].map((f, i) => (
-            <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-              <Check size={15} color={T.green} style={{ marginTop: 2, flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT_BODY, fontSize: 13, color: T.ink, lineHeight: 1.4 }}>{f}</span>
+        {offer.status === "owned" ? (
+          <div style={{ textAlign: "center", padding: "6px 0 2px" }}>
+            <BadgeCheck size={32} color={T.green} />
+            <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20, color: T.ink, marginTop: 8 }}>You're on Premium</div>
+            <div style={{ fontFamily: FONT_BODY, fontSize: 13, color: T.inkSoft, marginTop: 4, lineHeight: 1.45 }}>
+              Your second Life slot, every Decision Deck and all customization are unlocked on this account.
             </div>
-          ))}
-        </div>
+            {offer.managementURL && (
+              <a href={offer.managementURL} target="_blank" rel="noreferrer" style={{ display: "inline-block", marginTop: 12, fontFamily: FONT_BODY, fontWeight: 700, fontSize: 12.5, color: T.primary }}>
+                Manage subscription
+              </a>
+            )}
+            <div style={{ marginTop: 18 }}>
+              <PrimaryButton onClick={onClose} icon={Check}>Back to The Bag</PrimaryButton>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div style={{ textAlign: "center" }}>
+              <Trophy size={30} color={T.teal} />
+              <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20, color: T.ink, marginTop: 8 }}>Choose your plan</div>
+              <div style={{ fontFamily: FONT_BODY, fontSize: 13, color: T.inkSoft, marginTop: 4 }}>
+                {offer.offering?.serverDescription || "One subscription, the whole Decision Deck library."}
+              </div>
+            </div>
 
-        <div style={{ marginTop: 20 }}>
-          <PrimaryButton onClick={() => setMsg("This is a UI demo \u2014 checkout wires up to RevenueCat next.")}>Start Free Trial</PrimaryButton>
-        </div>
-        {msg && <div style={{ textAlign: "center", fontFamily: FONT_BODY, fontSize: 12, color: T.inkSoft, marginTop: 10 }}>{msg}</div>}
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 18 }}>
+              {offer.status === "loading" && [0, 1, 2].map((i) => (
+                <div key={i} style={{ height: 62, borderRadius: 14, background: T.cream2, border: `1.5px solid ${T.line}` }} />
+              ))}
+
+              {offer.status === "unavailable" && (
+                <div style={{ borderRadius: 14, background: T.cream2, border: `1.5px solid ${T.line}`, padding: "14px 15px" }}>
+                  <div style={{ fontFamily: FONT_BODY, fontWeight: 700, fontSize: 13, color: T.ink }}>Plans unavailable</div>
+                  <div style={{ fontFamily: FONT_BODY, fontSize: 12.5, color: T.inkSoft, marginTop: 4, lineHeight: 1.45 }}>{offer.detail}</div>
+                </div>
+              )}
+
+              {packages.map((pkg) => {
+                const active = pkg.identifier === selectedId;
+                const trial = trialLength(pkg);
+                return (
+                  <button key={pkg.identifier} onClick={() => setSelectedId(pkg.identifier)} style={planRowStyle(active)}>
+                    <div style={{
+                      width: 20, height: 20, borderRadius: 999, flexShrink: 0, marginTop: 1,
+                      border: `2px solid ${active ? T.primary : T.line}`, background: active ? T.primary : T.white,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}>
+                      {active && <Check size={12} color={T.white} strokeWidth={3.4} />}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontFamily: FONT_BODY, fontWeight: 700, fontSize: 13.5, color: T.ink }}>{pkg.product.title}</div>
+                      <div style={{ fontFamily: FONT_BODY, fontSize: 11.5, color: T.inkSoft, marginTop: 2 }}>
+                        {trial || pkg.product.description || pkg.product.identifier}
+                      </div>
+                    </div>
+                    <div style={{ textAlign: "right", flexShrink: 0 }}>
+                      <span style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 17, color: T.ink }}>{pkg.product.price.formattedPrice}</span>
+                      <span style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.inkSoft }}>{pricePeriod(pkg)}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 18 }}>
+              {(offer.perks || FALLBACK_PERKS).map((f, i) => (
+                <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+                  <Check size={15} color={T.green} style={{ marginTop: 2, flexShrink: 0 }} />
+                  <span style={{ fontFamily: FONT_BODY, fontSize: 13, color: T.ink, lineHeight: 1.4 }}>{f}</span>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: 20 }}>
+              <PrimaryButton onClick={onBuy} disabled={!selected || buying}>
+                {buying ? "Opening checkout\u2026" : selected && trialLength(selected) ? "Start Free Trial" : "Continue to checkout"}
+              </PrimaryButton>
+            </div>
+            <div style={{ textAlign: "center", fontFamily: FONT_BODY, fontSize: 11, color: T.inkSoft, marginTop: 10 }}>
+              Secure checkout by RevenueCat Web Billing. Cancel anytime.
+            </div>
+          </>
+        )}
+
+        {msg && <div style={{ textAlign: "center", fontFamily: FONT_BODY, fontSize: 12, color: T.inkSoft, marginTop: 10, lineHeight: 1.45 }}>{msg}</div>}
       </div>
     </div>
   );
 }
 
-function togBtnStyle(active) {
+function planRowStyle(active) {
   return {
-    flex: 1, padding: "9px 0", borderRadius: 9, border: "none", cursor: "pointer",
-    background: active ? T.white : "transparent", color: active ? T.ink : T.inkSoft,
-    fontFamily: FONT_BODY, fontWeight: 700, fontSize: 12.5,
-    boxShadow: active ? "0 2px 6px rgba(0,0,0,0.08)" : "none",
+    display: "flex", alignItems: "flex-start", gap: 10, textAlign: "left", width: "100%",
+    padding: "12px 13px", borderRadius: 14, cursor: "pointer",
+    background: active ? T.white : T.cream2,
+    border: `1.5px solid ${active ? T.primary : T.line}`,
+    boxShadow: active ? "0 8px 18px -12px rgba(10,46,93,0.45)" : "none",
   };
 }
 
@@ -1414,6 +1689,19 @@ const defaultAvatar = () => ({
 });
 const initialLife = () => ({ age: 15, cash: 180, job: null, usedCardIds: [], cardsThisLife: 0 });
 
+// Slot 1 is free; every slot past it needs the premium entitlement. Lives run
+// side by side — each keeps its own age, cash and spent cards — while the
+// ledger (Bag Score, Playbooks, history) stays shared, since the whole premise
+// is that financial identity carries across lives.
+const LIFE_SLOTS = 2;
+const initialLives = () => Array.from({ length: LIFE_SLOTS }, initialLife);
+
+// Saves written before slots existed carry a single `life`; it becomes slot 1.
+function restoreLives(saved) {
+  const stored = Array.isArray(saved?.lives) ? saved.lives : saved?.life ? [saved.life] : [];
+  return initialLives().map((fresh, i) => stored[i] || fresh);
+}
+
 export default function App() {
   const [saved] = useState(() => loadState());
   const [phase, setPhase] = useState(saved?.phase ?? "quiz"); // quiz -> reveal -> goal -> character -> main
@@ -1423,8 +1711,20 @@ export default function App() {
 
   const [av, setAv] = useState(saved?.av ?? defaultAvatar());
 
-  const [life, setLife] = useState(saved?.life ?? initialLife());
+  const [lives, setLives] = useState(() => restoreLives(saved));
+  const [activeSlot, setActiveSlot] = useState(() => clamp(saved?.activeSlot ?? 0, 0, LIFE_SLOTS - 1));
   const [ledger, setLedger] = useState(saved?.ledger ?? makeInitialLedger());
+
+  const { isPremium, syncFromCustomerInfo } = usePremiumEntitlement();
+
+  // Everything downstream still works against one life at a time; only the
+  // slot switcher knows there is more than one.
+  const life = lives[activeSlot];
+  const setLife = useCallback((update) => {
+    setLives((prev) => prev.map((slot, i) => (
+      i === activeSlot ? (typeof update === "function" ? update(slot) : update) : slot
+    )));
+  }, [activeSlot]);
 
   const [tab, setTab] = useState("home");
   const [overlay, setOverlay] = useState(null); // {type:'decision'|'receipt'|'lifeEnd', ...}
@@ -1440,10 +1740,16 @@ export default function App() {
     return () => clearTimeout(t);
   }, [toast]);
 
+  // A lapsed or refunded subscription can't strand the player inside a slot
+  // they no longer own.
   useEffect(() => {
-    // Ledger persist: Player snapshot (phase, Money Type, life, ledger, Bag Check) is write-through to localStorage.
+    if (!isPremium && activeSlot !== 0) setActiveSlot(0);
+  }, [isPremium, activeSlot]);
+
+  useEffect(() => {
+    // Ledger persist: Player snapshot (phase, Money Type, lives, ledger, Bag Check) is write-through to localStorage.
     saveState({
-      phase, quizStep, moneyType, goal, av, life, ledger,
+      phase, quizStep, moneyType, goal, av, lives, activeSlot, ledger,
       bagCheck: {
         demoOffset: bagCheck.demoOffset,
         answeredDate: bagCheck.answeredDate,
@@ -1451,7 +1757,7 @@ export default function App() {
         history: bagCheck.history,
       },
     });
-  }, [phase, quizStep, moneyType, goal, av, life, ledger, bagCheck]);
+  }, [phase, quizStep, moneyType, goal, av, lives, activeSlot, ledger, bagCheck]);
 
   // Once the player leaves the Bag Check tab, the "just answered" results +
   // leaderboard view should not come back on its own — only the reminder
@@ -1540,6 +1846,15 @@ export default function App() {
     setTab("home");
   };
 
+  const onSelectSlot = (index) => {
+    if (index === activeSlot) return;
+    if (index > 0 && !isPremium) { setPaywallOpen(true); return; }
+    setActiveSlot(index);
+    // The open card belongs to the life being switched away from.
+    setOverlay(null);
+    setResearch(null);
+  };
+
   const openResearch = (lessonKey) => {
     setResearch({ lessonKey, onComplete: () => handleResearchComplete(lessonKey) });
   };
@@ -1612,19 +1927,23 @@ export default function App() {
     clearState();
     setPhase("quiz"); setQuizStep(0); setMoneyType(null); setGoalState(null);
     setAv(defaultAvatar());
-    setLife(initialLife());
+    setLives(initialLives());
+    setActiveSlot(0);
     setLedger(makeInitialLedger());
     setBagCheck(makeBagCheckState());
     setTab("home"); setOverlay(null); setResearch(null); setPaywallOpen(false);
   };
 
   let mainScreen = null;
-  if (tab === "home") mainScreen = <LifeScreen av={av} life={life} ledger={ledger} onAgeUp={onAgeUp} goal={goal} />;
+  if (tab === "home") mainScreen = (
+    <LifeScreen av={av} life={life} ledger={ledger} onAgeUp={onAgeUp} goal={goal}
+      lives={lives} activeSlot={activeSlot} isPremium={isPremium} onSelectSlot={onSelectSlot} />
+  );
   if (tab === "bagcheck") mainScreen = (
     <BagCheckScreen bagCheck={bagCheck} onSimNextDay={onSimNextDay} av={av} ledger={ledger}
       onAnswer={{ choose: onBagCheckChoose, share: onBagCheckShare }} />
   );
-  if (tab === "settings") mainScreen = <SettingsScreen av={av} moneyType={moneyType} onOpenPaywall={() => setPaywallOpen(true)} onResetAll={onResetAll} />;
+  if (tab === "settings") mainScreen = <SettingsScreen av={av} moneyType={moneyType} isPremium={isPremium} onOpenPaywall={() => setPaywallOpen(true)} onResetAll={onResetAll} />;
 
   const receiptChoice = overlay?.type === "receipt" ? sideChoice(overlay.card, overlay.chosenSide) : null;
 
@@ -1701,7 +2020,15 @@ export default function App() {
           {research && (
             <ResearchOverlay lessonKey={research.lessonKey} onComplete={research.onComplete} onSkip={() => setResearch(null)} />
           )}
-          {paywallOpen && <PaywallOverlay onClose={() => setPaywallOpen(false)} />}
+          {paywallOpen && (
+            <PaywallOverlay
+              onClose={() => setPaywallOpen(false)}
+              onPurchaseComplete={(customerInfo) => {
+                syncFromCustomerInfo(customerInfo);
+                setToast("Premium unlocked");
+              }}
+            />
+          )}
 
           <Toast toast={toast} />
         </div>
