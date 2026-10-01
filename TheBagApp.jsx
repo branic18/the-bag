@@ -600,6 +600,18 @@ function LearningStatus({ card, chosenSide, ledger, unlockedName, onResearchNow 
   );
 }
 
+function Logo({ size = 28, style }) {
+  return (
+    <img
+      src="/logo.png"
+      alt="The Bag"
+      width={size}
+      height={size}
+      style={{ display: "block", width: size, height: size, objectFit: "contain", ...style }}
+    />
+  );
+}
+
 function Receipt({ items, total, bagDelta, onContinue, isLifeEnd, card, chosenSide, ledger, unlockedName, onResearchNow }) {
   return (
     <div style={overlayWrapStyle}>
@@ -609,6 +621,7 @@ function Receipt({ items, total, bagDelta, onContinue, isLifeEnd, card, chosenSi
         animation: "printIn .4s cubic-bezier(.2,.8,.2,1)", position: "relative",
       }}>
         <div style={{ textAlign: "center", borderBottom: `2px dashed ${T.line}`, paddingBottom: 14, marginBottom: 14 }}>
+          <Logo size={44} style={{ margin: "0 auto 6px" }} />
           <div style={{ fontSize: 11, letterSpacing: 3, color: T.inkSoft, fontWeight: 700 }}>THE BAG</div>
           <div style={{ fontSize: 15, fontWeight: 700, color: T.ink, marginTop: 4 }}>
             {isLifeEnd ? "LIFE SUMMARY" : "RECEIPT"}
@@ -710,6 +723,7 @@ function QuizScreen({ step, setStep, onFinish }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%", padding: "0 22px", background: T.cream }}>
       <div style={{ paddingTop: 26, paddingBottom: 18 }}>
+        <Logo size={48} style={{ margin: "0 auto 10px" }} />
         <div style={{ fontFamily: FONT_BODY, fontSize: 12, fontWeight: 700, color: T.inkSoft, letterSpacing: 1.5, textAlign: "center" }}>
           FIND YOUR MONEY TYPE
         </div>
@@ -1233,6 +1247,7 @@ function BagCheckScreen({ bagCheck, onAnswer, onSimNextDay, av, ledger }) {
             fontFamily: "'Space Grotesk', monospace",
           }}>
             <div style={{ textAlign: "center", borderBottom: `2px dashed ${T.line}`, paddingBottom: 12, marginBottom: 14 }}>
+              <Logo size={36} style={{ margin: "0 auto 6px" }} />
               <div style={{ fontSize: 11, letterSpacing: 3, color: T.inkSoft, fontWeight: 700 }}>THE BAG CHECK</div>
               <div style={{ fontSize: 15, fontWeight: 700, color: T.ink, marginTop: 4 }}>{s.title}</div>
             </div>

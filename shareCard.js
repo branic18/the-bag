@@ -19,23 +19,27 @@ export async function shareBagCheckCard({
   ctx.lineWidth = 3;
   ctx.stroke();
 
+  const logoSize = 64;
+  const logo = await loadLogo();
+  if (logo) ctx.drawImage(logo, (w - logoSize) / 2, 64, logoSize, logoSize);
+
   ctx.fillStyle = "#4E7191";
   ctx.font = "700 22px 'Space Grotesk', system-ui, sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText("THE BAG CHECK", w / 2, 120);
+  ctx.fillText("THE BAG CHECK", w / 2, 160);
 
   ctx.fillStyle = "#0A2E5D";
   ctx.font = "700 36px 'Space Grotesk', system-ui, sans-serif";
-  wrapText(ctx, title, w / 2, 175, w - 160, 42);
+  wrapText(ctx, title, w / 2, 210, w - 160, 42);
 
-  dashLine(ctx, 80, 250, w - 80);
+  dashLine(ctx, 80, 280, w - 80);
 
   ctx.font = "600 22px 'Plus Jakarta Sans', system-ui, sans-serif";
   ctx.fillStyle = "#0A2E5D";
-  wrapText(ctx, prompt, w / 2, 300, w - 160, 30);
+  wrapText(ctx, prompt, w / 2, 325, w - 160, 30);
 
   ctx.font = "700 24px 'Plus Jakarta Sans', system-ui, sans-serif";
-  wrapText(ctx, `You chose: ${chosenLabel}`, w / 2, 400, w - 160, 32);
+  wrapText(ctx, `You chose: ${chosenLabel}`, w / 2, 420, w - 160, 32);
 
   drawBar(ctx, left.label, left.pct, chosenSide === "left", 80, 500, w - 160);
   drawBar(ctx, right.label, right.pct, chosenSide === "right", 80, 590, w - 160);
@@ -77,6 +81,16 @@ export async function shareBagCheckCard({
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1500);
   return "downloaded";
+}
+
+/** Load /logo.png for the canvas; resolves null if it can't load so the card still renders. */
+function loadLogo() {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = `${import.meta.env?.BASE_URL ?? "/"}logo.png`;
+  });
 }
 
 function roundRect(ctx, x, y, width, height, r) {
